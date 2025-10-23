@@ -101,14 +101,21 @@ export default function Katherine() {
           </p>
 
           <p>
-            Feel free to{" "}
+            Check out my teammates{" "}
             <Link
-              href="/contact"
+              href="/ashley"
               style={{ color: "inherit", textDecoration: "underline" }}
             >
-              reach out
+              Ashley
             </Link>{" "}
-            if you'd like to collaborate or just chat about tech.
+            and{" "}
+            <Link
+              href="/ryan"
+              style={{ color: "inherit", textDecoration: "underline" }}
+            >
+              Ryan
+            </Link>
+            .
           </p>
         </div>
       </div>

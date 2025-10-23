@@ -100,14 +100,21 @@ export default function Ryan() {
           </p>
 
           <p>
-            Feel free to{" "}
+            Check out my teammates{" "}
             <Link
-              href="/contact"
+              href="/katherine"
               style={{ color: "inherit", textDecoration: "underline" }}
             >
-              reach out
+              Katherine
             </Link>{" "}
-            if you'd like to collaborate or just chat about tech.
+            and{" "}
+            <Link
+              href="/ashley"
+              style={{ color: "inherit", textDecoration: "underline" }}
+            >
+              Ashley
+            </Link>
+            .
           </p>
         </div>
       </div>
