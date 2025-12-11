@@ -6,19 +6,26 @@ export function useScrollSpy(selectors: string[], offset = 0) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + offset + 100; 
-      let current = "";
+      const scrollMidpoint = window.scrollY + window.innerHeight / 2;
+      let currentSection = "";
 
-      selectors.forEach((selector) => {
-        const element = document.querySelector(selector);
-        if (element && element instanceof HTMLElement) {
-          if (scrollPosition >= element.offsetTop) {
-            current = selector.substring(1); 
+      for (const selector of selectors) {
+        const el = document.querySelector(selector);
+        if (el && el instanceof HTMLElement) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+
+          if (scrollMidpoint >= top && scrollMidpoint < top + height) {
+            currentSection = selector.substring(1);
+            break;
           }
         }
-      });
+      }
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
+        currentSection = selectors[selectors.length - 1].substring(1);
+      }
 
-      setActiveId(current);
+      setActiveId(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);

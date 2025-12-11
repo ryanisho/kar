@@ -1,17 +1,14 @@
 "use client";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
-import { useScrollSpy } from "@/hooks/useScrollSpy";
 import Head from "next/head";
+import AboutSidebar from "@/components/AboutSidebar";
+
 
 
 export default function About() {
-  const activeId = useScrollSpy([
-  "#what-is-kar",
-  "#our-mission",
-  "#tech-stack",
-  "#get-involved",
-]);
+
+
   return (
     <>
       <Head>
@@ -22,59 +19,14 @@ export default function About() {
           />
         </Head>
       <Navigation />
-      <div 
-        className="min-h-screen bg-[#fafafa] text-[#111] font-[var(--font-geist-sans)]" 
-      >
+
+      <div className="min-h-screen bg-white text-black dark:bg-[#0a0a0a] dark:text-gray-100 font-[var(--font-geist-sans)]">
+
       <div
         className="grid grid-cols-1 md:grid-cols-[250px_1fr] max-w-7xl mx-auto">
-          <aside className="border-r border-gray-200 p-6 hidden md:block sticky top-20 h-[calc(100vh-5rem)]"> 
-            <nav className="space-y-2 text-[0.95rem]">
-              <a
-                href="#what-is-kar"
-                className={`block transition-all duration-200 ${
-                  activeId === "what-is-kar"
-                    ? "font-medium underline underline-offset-4 decoration-2 decoration-black"
-                    : "text-gray-600 hover:underline hover:underline-offset-4 hover:decoration-black"
-                }`}
-              >
-                What is KAR?
-              </a>
+          <AboutSidebar />
 
-              <a
-                href="#our-mission"
-                className={`block transition-all duration-200 ${
-                  activeId === "our-mission"
-                    ? "font-medium underline underline-offset-4 decoration-2 decoration-black"
-                    : "text-gray-600 hover:underline hover:underline-offset-4 hover:decoration-black"
-                }`}
-              >
-                Our Mission
-              </a>
-
-              <a
-                href="#tech-stack"
-                className={`block transition-all duration-200 ${
-                  activeId === "tech-stack"
-                    ? "font-medium underline underline-offset-4 decoration-2 decoration-black"
-                    : "text-gray-600 hover:underline hover:underline-offset-4 hover:decoration-black"
-                }`}
-              >
-                Technology Stack
-              </a>
-
-              <a
-                href="#get-involved"
-                className={`block transition-all duration-200 ${
-                  activeId === "get-involved"
-                    ? "font-medium underline underline-offset-4 decoration-2 decoration-black"
-                    : "text-gray-600 hover:underline hover:underline-offset-4 hover:decoration-black"
-                }`}
-              >
-                Get Involved
-              </a>
-            </nav>
-
-          </aside>
+          {/* Main Content*/}
           <div className="pt-[5rem]">
           <main className="p-8 md:p-16 pt-36 max-w-3xl mx-auto">
             <h1 className="text-5xl font-bold mb-10">About KAR Wiki</h1>
