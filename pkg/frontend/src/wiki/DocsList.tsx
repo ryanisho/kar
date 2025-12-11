@@ -60,17 +60,6 @@ export const DocsList: React.FC = () => {
         boxSizing: "border-box",
       }}
     >
-      <h3>Docs</h3>
-
-      <button
-        type="button"
-        onClick={handleCreateSampleDoc}
-        disabled={creating}
-        style={{ marginBottom: "1rem", display: "block" }}
-      >
-        {creating ? "Creating sample doc..." : "Add sample doc"}
-      </button>
-
       {/* hc broken for testing */}
       <div style={{ marginBottom: "1rem" }}>
         <strong>Test links</strong>
