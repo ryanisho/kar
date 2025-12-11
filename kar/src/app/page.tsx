@@ -298,7 +298,7 @@ export default function Home() {
               textAlign: "center",
             }}
           >
-            Quick Links
+            Fun Things
           </h3>
 
           <div
