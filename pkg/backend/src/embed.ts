@@ -1,4 +1,4 @@
-const EMBED_API_URL = process.env.WF4_EMBED_API_URL ?? "http://localhost:7000/embed";
+const EMBED_API_URL = process.env.WF4_EMBED_API_URL ?? "http://localhost:7001/embed";
 
 export async function embedText(text: string): Promise<number[]> {
   const resp = await fetch(EMBED_API_URL, {

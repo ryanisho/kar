@@ -1,7 +1,7 @@
 import { query } from "./db";
 import { embedText } from "./embed";
 
-const EMBEDDING_DIM = 768; // must match your model & pgvector column
+const EMBEDDING_DIM = 384; // must match your model & pgvector column
 
 async function fetchDocsToIndex() {
   // docs with no embedding yet OR updated after embedding
