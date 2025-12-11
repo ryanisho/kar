@@ -75,10 +75,13 @@ export default function About() {
             </nav>
 
           </aside>
-          <main className="p-8 md:p-16">
+          <div className="pt-[5rem]">
+          <main className="p-8 md:p-16 pt-36 max-w-3xl mx-auto">
             <h1 className="text-5xl font-bold mb-10">About KAR Wiki</h1>
 
-            <section id="what-is-kar" className="mb-12"> 
+            <section 
+              id="what-is-kar"
+              className="mb-12 pb-12 border-b border-gray-200"> 
               <h2 className="text-3xl font-semibold mb-4">What is KAR?</h2> 
               <p className="text-lg leading-relaxed mb-3">
                 KAR is a collaborative wiki created by three software engineers:{" "}
@@ -97,7 +100,9 @@ export default function About() {
               </p>
             </section>
 
-            <section id="our-mission" className="mb-12"> 
+            <section 
+            id="our-mission" 
+            className="mb-12 pb-12 border-b border-gray-200"> 
             <h2 className="text-3xl font-semibold mb-4">Our Mission</h2>
             <p className="text-lg leading-relaxed mb-3">
               Our mission is to create a comprehensive resource for developers at all levels. We believe in:
@@ -109,7 +114,9 @@ export default function About() {
               <li>✨ Clean, accessible, and user-friendly design</li>
             </ul>
           </section>
-          <section id="tech-stack" className="mb-12">
+          <section 
+          id="tech-stack" 
+          className="mb-12 pb-12 border-b border-gray-200">
               <h2 className="text-3xl font-semibold mb-4">Technology Stack</h2>
               <p className="text-lg leading-relaxed mb-3">
                 This wiki is built with modern web technologies:
@@ -134,6 +141,7 @@ export default function About() {
               </p>
             </section>
           </main>
+          </div>
       </div> 
       </div>
       
