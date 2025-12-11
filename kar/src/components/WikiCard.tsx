@@ -15,20 +15,20 @@ export default function WikiCard({ title, description, link }: WikiCardProps) {
       style={{
         display: "block",
         padding: "1.5rem",
-        border: "1px solid #ddd",
+        border: "1px solid var(--card-border)",
         borderRadius: "0.75rem",
         textDecoration: "none",
         color: "inherit",
-        backgroundColor: "#fff",
+        backgroundColor: "var(--card-bg)",
         transition: "all 0.2s ease",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "#ccc";
-        e.currentTarget.style.backgroundColor = "#fafafa";
+        e.currentTarget.style.borderColor = "var(--card-border-hover)";
+        e.currentTarget.style.backgroundColor = "var(--card-bg-hover)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "#ddd";
-        e.currentTarget.style.backgroundColor = "#fff";
+        e.currentTarget.style.borderColor = "var(--card-border)";
+        e.currentTarget.style.backgroundColor = "var(--card-bg)";
       }}
     >
       <h3

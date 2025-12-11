@@ -3,6 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-bg: #ffffff;
+  --card-border: #dddddd;
+  --card-bg-hover: #fafafa;
+  --card-border-hover: #cccccc;
 }
 
 @theme inline {
@@ -16,6 +20,10 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card-bg: #111111;
+    --card-border: #2b2b2b;
+    --card-bg-hover: #181818;
+    --card-border-hover: #3a3a3a;
   }
 }
 
