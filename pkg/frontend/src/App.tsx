@@ -1,48 +1,25 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { DocsList } from "./wiki/DocsList";
+import { DocPage } from "./wiki/DocPage";
 import { NotFoundPage } from "./NotFoundPage";
 
 const Home: React.FC = () => (
-  <div>
-    <h1>Docs Home</h1>
-    <p>Welcome to the wf4 demo docs site.</p>
-    <p>
-      Broken link example:{" "}
-      <a href="/docs/gettting-started">Getting started (typo)</a>
-    </p>
-    <p>
-      Working link:{" "}
-      <Link to="/docs/getting-started">Getting started (correct)</Link>
-    </p>
+  <div style={{ padding: "2rem" }}>
+    <h1>Welcome to the Documentation</h1>
+    <p>Select a document from the sidebar to get started.</p>
   </div>
 );
 
-const GettingStarted: React.FC = () => (
-  <div>
-    <h1>Getting started</h1>
-    <p>Here is the real getting started page.</p>
-  </div>
-);
-
-export const App: React.FC = () => {
-  return (
-    <>
-      <nav
-        style={{
-          padding: "1rem",
-          borderBottom: "1px solid #ddd",
-          marginBottom: "1rem",
-        }}
-      >
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/docs/getting-started">Getting started</Link>
-      </nav>
-
+export const App: React.FC = () => (
+  <div style={{ display: "flex", minHeight: "100vh" }}>
+    <DocsList />
+    <main style={{ flex: 1 }}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/docs/getting-started" element={<GettingStarted />} />
+        <Route path="/docs/:slug" element={<DocPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </>
-  );
-};
+    </main>
+  </div>
+);

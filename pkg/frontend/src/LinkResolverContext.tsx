@@ -4,7 +4,8 @@ export interface SuggestedLink {
   url: string;
   title: string;
   description?: string;
-  confidence: number; // 0..1
+  confidence: number;
+  reason?: string;
 }
 
 interface ResolverState {
@@ -31,7 +32,7 @@ export const useLinkResolver = () => {
 };
 
 interface ProviderProps {
-  apiBaseUrl?: string; //
+  apiBaseUrl?: string;
   children: React.ReactNode;
 }
 
@@ -60,13 +61,9 @@ export const LinkResolverProvider: React.FC<ProviderProps> = ({
           body: JSON.stringify({ deadUrl, context }),
         });
 
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const data = (await res.json()) as {
-          suggestions?: SuggestedLink[];
-        };
+        const data = (await res.json()) as { suggestions?: SuggestedLink[] };
 
         setState({
           loading: false,
