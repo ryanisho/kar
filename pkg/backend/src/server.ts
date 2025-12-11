@@ -9,6 +9,20 @@ app.use(express.json());
 const OLLAMA_URL = "http://localhost:11434/api/generate"; 
 const MODEL_NAME = "llama3"; 
 
+// extract json object from LLM
+function extractJsonObject(raw: string) : any {
+    const first = raw.indexOf("{");
+    const last = raw.indexOf("}");
+
+    if (first === -1 || last === -1 || last <= first) {
+        // this shld nvr occur
+        throw new Error("No JSON object found in LLM output");
+    }
+
+    const jsonStr = raw.slice(first, last + 1);
+    return JSON.parse(jsonStr);
+}
+
 function buildPrompt(deadUrl: string, context: string): string {
   return `
 You are an assistant that fixes broken links in a documentation website.
@@ -23,7 +37,7 @@ ${context.slice(0, 2000)}
 Task:
 - Guess up to 3 URLs that are likely what the user intended.
 - Prefer URLs on the same site.
-- Return STRICT JSON with this shape and nothing else:
+- Return STRICT JSON with this shape and nothing else (NO OTHER TEXT):
 
 {
   "suggestions": [
@@ -67,11 +81,12 @@ app.post("/api/link-suggestions", async (req, res) => {
     const data = (await response.json()) as { response: string };
     const raw = data.response;
 
+    // parse json ! 
     let parsed: any;
     try {
-      parsed = JSON.parse(raw);
+      parsed = extractJsonObject(raw);
     } catch (e) {
-      console.error("Failed to parse LLM JSON:", e);
+      console.error("Failed to extract or parse LLM JSON:", e);
       console.error("Raw LLM output:", raw);
       return res.status(500).json({ error: "Bad LLM JSON output" });
     }
