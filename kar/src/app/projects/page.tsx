@@ -16,16 +16,34 @@ export default function Projects() {
       link: "/projects/task-manager",
     },
     {
+      title: "Studio Ghibli App",
+      description:
+        "A wellness-tracking iOS application inspired by Studio Ghibli’s calming visual style.",
+      link: "/projects/studio-ghibli-app",
+    },
+    {
       title: "Weather Dashboard",
       description:
         "An interactive weather application using third-party APIs, featuring location-based forecasts and data visualization.",
       link: "/projects/weather-dashboard",
     },
     {
+      title: "Crochet Project Tracker",
+      description:
+        "A responsive web application built with React.js for organizing and managing crochet projects.",
+      link: "/projects/crochet-project-tracker",
+    },
+    {
       title: "Code Snippet Library",
       description:
         "A searchable library of code snippets across multiple programming languages with syntax highlighting and copy-to-clipboard functionality.",
       link: "/projects/snippet-library",
+    },
+    {
+      title: "Digital Library",
+      description:
+        "A full-stack mobile application built with SwiftUI for tracking reading activity and managing personal book collections.",
+      link: "/projects/digital-library",
     },
     {
       title: "Portfolio Generator",
