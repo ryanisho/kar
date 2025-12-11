@@ -9,13 +9,16 @@ export async function embedText(text: string): Promise<number[]> {
 
   if (!resp.ok) {
     const body = await resp.text();
-    throw new Error(`Embedding service error: ${resp.status} ${resp.statusText} – ${body}`);
+    throw new Error(
+      `Embedding service error: ${resp.status} ${resp.statusText} – ${body}`
+    );
   }
 
-  const data = (await resp.json()) as { embedding: number[] };
-  if (!data.embedding || !Array.isArray(data.embedding)) {
-    throw new Error("Invalid embedding payload");
+  const data = (await resp.json()) as { embeddings: number[][] };
+
+  if (!data.embeddings || !Array.isArray(data.embeddings) || !data.embeddings[0]) {
+    throw new Error("Invalid embedding payload from embed service");
   }
 
-  return data.embedding;
+  return data.embeddings[0];
 }

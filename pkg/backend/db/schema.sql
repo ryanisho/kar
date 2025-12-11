@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS docs (
 
 CREATE TABLE IF NOT EXISTS doc_embeddings (
   doc_id      INTEGER PRIMARY KEY REFERENCES docs(id) ON DELETE CASCADE,
-  embedding   vector(768) NOT NULL,
+  embedding   vector(384) NOT NULL,
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
