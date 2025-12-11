@@ -2,7 +2,6 @@
   "name": "wf4-backend",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "ts-node src/server.ts",
     "index": "ts-node src/indexer.ts",
