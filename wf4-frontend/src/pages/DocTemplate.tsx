@@ -69,19 +69,6 @@ const DocTemplate = () => {
 
       <main className="ml-64 pt-14">
         <div className="max-w-3xl mx-auto px-8 py-12">
-          {/* Page Header */}
-          <div className="flex items-start justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-semibold text-foreground mb-2">
-                {doc.title}
-              </h1>
-            </div>
-            <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <Copy className="w-4 h-4" />
-              Copy page
-            </button>
-          </div>
-
           {/* Document Content */}
           <section className="mb-10">
             <article className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:text-foreground prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-foreground prose-p:leading-7 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:text-foreground prose-pre:border prose-pre:border-border prose-strong:text-foreground prose-li:text-foreground">
