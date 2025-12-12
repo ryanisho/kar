@@ -31,7 +31,9 @@ const DocsContent = () => {
             <p className="text-muted-foreground mb-6">
               Welcome to our AI Practicum project!
             </p>
-            <Button>About</Button>
+            <Button asChild>
+              <a href="/docs/wf4-overview-architecture">About</a>
+            </Button>
           </div>
         </div>
 
