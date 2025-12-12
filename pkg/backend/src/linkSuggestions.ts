@@ -86,7 +86,7 @@ function buildLLMPrompt(
   }
 
   const lines = candidates.map((c, idx) => {
-    const snippet = c.body.replace(/\s+/g, " ").slice(0, 300);
+    const snippet = c.body.replace(/\s+/g, " ").slice(0, 400);
     return `Candidate ${idx + 1}:
 - url: /docs/${c.slug}
 - title: ${c.title}
@@ -95,46 +95,49 @@ function buildLLMPrompt(
   });
 
   return `
-You are helping fix a broken link in a documentation site.
+You are an expert at analyzing broken documentation links and finding the best matching pages.
 
-Broken URL:
-${deadUrl}
+USER'S REQUEST:
+Broken URL: ${deadUrl}
+Path: ${path}
+Search Context: ${queryText}
 
-Path only:
-${path}
-
-Semantic query for this 404:
-${queryText}
-
-We searched our documentation index and found the following candidate pages:
-
+AVAILABLE CANDIDATES:
 ${lines.join("\n\n")}
 
-Your task:
-- Choose the single best candidate that most likely matches what the user wanted.
-- Optionally, you may list other strong alternatives, in order of relevance.
-- Consider both:
-  - How similar the candidate URL path is to the broken path.
-  - How relevant the candidate content is to the query.
+ANALYSIS REQUIRED:
+Carefully analyze each candidate and determine which page the user most likely intended to visit. Consider:
 
-Output STRICT JSON only, with no explanation text before or after it.
-The JSON MUST have this shape:
+1. URL Path Similarity: Does the candidate's slug match or closely resemble the broken path?
+2. Content Relevance: Does the page content match what the user was searching for?
+3. Title Matching: Does the title indicate this is the right page?
+4. Semantic Understanding: Based on the context, what was the user trying to accomplish?
 
+Rank all candidates by relevance, with the best match first.
+
+OUTPUT FORMAT (STRICT JSON):
 {
-  "best": <integer index between 1 and ${candidates.length}>,
-  "alternates": [<other distinct indices between 1 and ${candidates.length}>]
+  "best": <integer index 1-${candidates.length}>,
+  "bestReason": "<concise explanation of why this is the best match>",
+  "alternates": [<other relevant indices in order>],
+  "alternateReasons": ["<reason for first alternate>", "<reason for second alternate>"]
 }
 
-Examples of valid answers (for illustration):
-
-{"best": 1, "alternates": [2, 3]}
-{"best": 2, "alternates": []}
+Example:
+{
+  "best": 2,
+  "bestReason": "URL slug 'getting-started' closely matches broken path, and content covers initial setup",
+  "alternates": [1, 3],
+  "alternateReasons": ["Related introductory content", "Covers similar setup topics"]
+}
 `;
 }
 
 type SelectionResult = {
   best: number;
   alternates: number[];
+  bestReason?: string;
+  alternateReasons?: string[];
 };
 
 /**
@@ -178,7 +181,14 @@ function parseSelection(
       }
 
       if (validBest) {
-        return { best, alternates };
+        return {
+          best,
+          alternates,
+          bestReason: parsed.bestReason,
+          alternateReasons: Array.isArray(parsed.alternateReasons)
+            ? parsed.alternateReasons
+            : [],
+        };
       }
       return null;
     } catch {
@@ -250,8 +260,8 @@ export async function getLinkSuggestions(
       stream: false,
       format: "json", // hint to Ollama
       options: {
-        temperature: 0,
-        num_predict: 96, // short JSON
+        temperature: 0.3,
+        num_predict: 256, // allow more tokens for reasoning
         top_p: 0.9,
       },
     }),
@@ -301,17 +311,28 @@ export async function getLinkSuggestions(
     ordered = picked;
   }
 
-  const suggestions: LinkSuggestion[] = ordered.slice(0, 3).map((c, idx) => {
+  const suggestions: LinkSuggestion[] = ordered.slice(0, 1).map((c, idx) => {
     const baseConfidence = 0.9;
     const confidence = Math.max(0.5, baseConfidence - idx * 0.15);
-    const reason =
-      idx === 0
-        ? selection
-          ? "Top candidate by vector similarity and LLM selection."
-          : "Top candidate by vector similarity (LLM selection unavailable)."
-        : selection
-        ? "Alternate candidate ranked by LLM and vector similarity."
-        : "Alternate candidate ranked by vector similarity.";
+    
+    let reason: string;
+    if (idx === 0 && selection?.bestReason) {
+      reason = selection.bestReason;
+    } else if (
+      idx > 0 &&
+      selection?.alternateReasons &&
+      selection.alternateReasons[idx - 1]
+    ) {
+      reason = selection.alternateReasons[idx - 1];
+    } else if (idx === 0) {
+      reason = selection
+        ? "Best match based on URL similarity and content relevance"
+        : "Top match by vector similarity (LLM analysis unavailable)";
+    } else {
+      reason = selection
+        ? "Alternative match with relevant content"
+        : "Ranked by vector similarity";
+    }
 
     return {
       url: `/docs/${c.slug}`,
