@@ -6,8 +6,9 @@ import { getLinkSuggestions } from "./linkSuggestions";
 const app = express();
 
 const FRONTEND_ORIGIN = process.env.WF4_FRONTEND_ORIGIN ?? "http://localhost:5173";
+const ALLOWED_ORIGINS = [FRONTEND_ORIGIN, "http://localhost:8080"];
 
-app.use(cors({ origin: FRONTEND_ORIGIN }));
+app.use(cors({ origin: ALLOWED_ORIGINS }));
 app.use(express.json());
 
 app.use((req, res, next) => {

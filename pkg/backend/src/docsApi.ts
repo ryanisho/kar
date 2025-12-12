@@ -8,6 +8,11 @@ docsRouter.get("/", async (req, res) => {
   const { rows } = await query<{ id: number; slug: string; title: string }>(
     "SELECT id, slug, title FROM docs ORDER BY id ASC"
   );
+  
+  if (rows.length === 0) {
+    console.log("Docs table is empty - no documents found");
+  }
+  
   res.json(rows);
 });
 
