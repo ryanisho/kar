@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import { Copy } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface Doc {
   id: number;
@@ -11,7 +12,7 @@ interface Doc {
   body: string;
 }
 
-const DeveloperMode = () => {
+const DocTemplate = () => {
   const { slug } = useParams();
   const [doc, setDoc] = useState<Doc | null>(null);
   const [loading, setLoading] = useState(true);
@@ -57,37 +58,8 @@ const DeveloperMode = () => {
     );
   }
 
-  if (notFound) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <Sidebar />
-        <main className="ml-64 pt-14">
-          <div className="max-w-3xl mx-auto px-8 py-12">
-            <h1 className="text-3xl font-semibold text-foreground mb-4">
-              404 - Page Not Found
-            </h1>
-            <p className="text-muted-foreground">
-              The document you're looking for doesn't exist.
-            </p>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  if (!doc) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <Sidebar />
-        <main className="ml-64 pt-14">
-          <div className="max-w-3xl mx-auto px-8 py-12">
-            <p className="text-muted-foreground">Document not found.</p>
-          </div>
-        </main>
-      </div>
-    );
+  if (notFound || !doc) {
+    return <Navigate to="/404" replace />;
   }
 
   return (
@@ -112,9 +84,9 @@ const DeveloperMode = () => {
 
           {/* Document Content */}
           <section className="mb-10">
-            <div className="text-foreground leading-relaxed whitespace-pre-wrap">
-              {doc.body}
-            </div>
+            <article className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:text-foreground prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-foreground prose-p:leading-7 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:text-foreground prose-pre:border prose-pre:border-border prose-strong:text-foreground prose-li:text-foreground">
+              <ReactMarkdown>{doc.body}</ReactMarkdown>
+            </article>
           </section>
         </div>
       </main>
@@ -122,4 +94,4 @@ const DeveloperMode = () => {
   );
 };
 
-export default DeveloperMode;
+export default DocTemplate;
