@@ -1,9 +1,8 @@
-// wf4/backend/src/linkSuggestions.ts
 import { query } from "./db";
 import { embedText } from "./embed";
 
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-const LLM_MODEL = process.env.WF4_LLM_MODEL ?? "llama3";
+const LLM_MODEL = "phi3:mini"; // tinyllama?
 
 interface DocCandidate {
   id: number;
@@ -72,12 +71,18 @@ async function fetchCandidates(
   }));
 }
 
-function buildLLMPrompt(deadUrl: string, queryText: string, candidates: DocCandidate[]): string {
+function buildLLMPrompt(
+  deadUrl: string,
+  queryText: string,
+  candidates: DocCandidate[]
+): string {
   let path = deadUrl;
   try {
     const url = new URL(deadUrl);
     path = url.pathname;
-  } catch {/* ignore */}
+  } catch {
+    /* ignore */
+  }
 
   const candidateSummaries = candidates.map((c) => ({
     url: `/docs/${c.slug}`,
@@ -149,14 +154,35 @@ function extractJsonObject(raw: string): any {
   return JSON.parse(jsonStr);
 }
 
-export async function getLinkSuggestions(deadUrl: string, context?: string): Promise<LinkSuggestion[]> {
+export async function getLinkSuggestions(
+  deadUrl: string,
+  context?: string
+): Promise<LinkSuggestion[]> {
+  const t0 = Date.now();
+
+  // 1) Build query + embed
   const queryText = buildEmbeddingQuery(deadUrl, context);
   const queryEmbedding = await embedText(queryText);
+  const t1 = Date.now();
 
+  // 2) Vector search
   const candidates = await fetchCandidates(queryEmbedding, 8);
-  if (!candidates.length) return [];
+  const t2 = Date.now();
 
+  if (!candidates.length) {
+    console.log("[wf4] linkSuggestions timings (no candidates)", {
+      totalMs: t2 - t0,
+      embedMs: t1 - t0,
+      searchMs: t2 - t1,
+      llmMs: 0,
+      candidateCount: 0,
+    });
+    return [];
+  }
+
+  // 3) LLM rerank
   const prompt = buildLLMPrompt(deadUrl, queryText, candidates);
+  console.log("[wf4] LLM prompt:", prompt);
 
   const llmResp = await fetch(`${OLLAMA_URL}/api/generate`, {
     method: "POST",
@@ -165,19 +191,45 @@ export async function getLinkSuggestions(deadUrl: string, context?: string): Pro
       model: LLM_MODEL,
       prompt,
       stream: false,
+      options: {
+        temperature: 0,
+        num_predict: 256,
+      },
     }),
   });
 
+  const t3 = Date.now();
+
   if (!llmResp.ok) {
     const body = await llmResp.text();
+    console.log("[wf4] linkSuggestions timings (LLM error)", {
+      totalMs: t3 - t0,
+      embedMs: t1 - t0,
+      searchMs: t2 - t1,
+      llmMs: t3 - t2,
+      candidateCount: candidates.length,
+    });
     throw new Error(`LLM backend error: ${llmResp.status} – ${body}`);
   }
 
   const llmData = (await llmResp.json()) as { response: string };
   const raw = llmData.response;
+  console.log("[wf4] LLM raw response:", raw);
 
   const parsed = extractJsonObject(raw);
-  if (!parsed || !Array.isArray(parsed.suggestions)) return [];
+  const suggestions: LinkSuggestion[] =
+    parsed && Array.isArray(parsed.suggestions) ? parsed.suggestions : [];
 
-  return parsed.suggestions as LinkSuggestion[];
+  const t4 = Date.now();
+
+  console.log("[wf4] linkSuggestions timings", {
+    totalMs: t4 - t0,
+    embedMs: t1 - t0,
+    searchMs: t2 - t1,
+    llmMs: t4 - t2,
+    candidateCount: candidates.length,
+    suggestionCount: suggestions.length,
+  });
+
+  return suggestions;
 }
