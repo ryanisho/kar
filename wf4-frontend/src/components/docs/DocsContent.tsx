@@ -2,8 +2,16 @@ import { Button } from "@/components/ui/button";
 import CodeBlock from "./CodeBlock";
 import ModelCard from "./ModelCard";
 import FeatureCard from "./FeatureCard";
-import { CircuitBoard, Eye, Cat, Bot, Lightbulb, BookA, BookOpenText, Shirt } from "lucide-react";
-
+import {
+  CircuitBoard,
+  Eye,
+  Cat,
+  Bot,
+  Lightbulb,
+  BookA,
+  BookOpenText,
+  Shirt,
+} from "lucide-react";
 
 const DocsContent = () => {
   return (
@@ -18,22 +26,21 @@ const DocsContent = () => {
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
           <div>
             <h2 className="text-xl font-semibold text-foreground mb-2">
-              Cornell University CS 4701 AI Practicum 
+              Cornell University CS 4701 AI Practicum
             </h2>
             <p className="text-muted-foreground mb-6">
-              Welcome to our AI Practicum project! 
+              Welcome to our AI Practicum project!
             </p>
-            <Button>
-              About
-            </Button>
+            <Button>About</Button>
           </div>
-      
         </div>
 
         {/* Models Section */}
         <section className="mb-16">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-foreground">Meet The Team</h2>
+            <h2 className="text-lg font-semibold text-foreground">
+              Meet The Team
+            </h2>
             {/* <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               View all
             </a> */}
@@ -53,7 +60,6 @@ const DocsContent = () => {
             <ModelCard
               name="Ryan"
               description="Backend and Infrastructure Developer"
-              badge="Lead"
               gradient="from-amber-50 to-orange-100"
             />
           </div>
