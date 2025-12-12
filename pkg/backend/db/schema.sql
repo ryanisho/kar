@@ -1,0 +1,19 @@
+CREATE DATABASE wf4;
+
+\c wf4;
+
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE IF NOT EXISTS docs (
+  id          SERIAL PRIMARY KEY,
+  slug        TEXT UNIQUE NOT NULL,
+  title       TEXT NOT NULL,
+  body        TEXT NOT NULL,
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS doc_embeddings (
+  doc_id      INTEGER PRIMARY KEY REFERENCES docs(id) ON DELETE CASCADE,
+  embedding   vector(384) NOT NULL,
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

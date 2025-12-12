@@ -1,0 +1,12 @@
+import pg from "pg";
+
+const { Pool } = pg;
+
+export const pool = new Pool({
+  connectionString: process.env.DATABASE_URL ?? "postgres://ryanho:wf4pass@localhost:5432/wf4",
+});
+
+export async function query<T extends pg.QueryResultRow = any>(text: string, params?: any[]): Promise<{ rows: T[] }> {
+  const res = await pool.query<T>(text, params);
+  return { rows: res.rows };
+}
