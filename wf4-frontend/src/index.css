@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
 @layer base {
   :root {
@@ -39,7 +39,7 @@
     /* Custom tokens */
     --sidebar-width: 260px;
     --header-height: 56px;
-    
+
     /* Syntax highlighting */
     --syntax-keyword: 280 65% 55%;
     --syntax-string: 145 63% 42%;
@@ -118,11 +118,12 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  code, pre {
-    font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  code,
+  pre {
+    font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
   }
 }
 
@@ -165,4 +166,214 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.3);
+}
+
+@keyframes flow {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+}
+
+.animate-flow {
+  animation: flow 3s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-250 {
+  animation-delay: 250ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-650 {
+  animation-delay: 650ms;
+}
+
+.delay-750 {
+  animation-delay: 750ms;
+}
+
+.delay-900 {
+  animation-delay: 900ms;
+}
+
+@keyframes path-particle {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 84px);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-reverse {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -84px);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-left {
+  0% {
+    transform: translate(0, -50%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(84px, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-right {
+  0% {
+    transform: translate(0, -50%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-84px, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-top-left {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100px, 70px);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-top-right {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100px, 70px);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-bottom-left {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100px, -70px);
+    opacity: 0;
+  }
+}
+
+@keyframes path-particle-bottom-right {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100px, -70px);
+    opacity: 0;
+  }
+}
+
+.animate-path-particle {
+  animation: path-particle 2s ease-in-out infinite;
+}
+
+.animate-path-particle-reverse {
+  animation: path-particle-reverse 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-path-particle-left {
+  animation: path-particle-left 2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.animate-path-particle-right {
+  animation: path-particle-right 2s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-path-particle-top-left {
+  animation: path-particle-top-left 2s ease-in-out infinite;
+}
+
+.animate-path-particle-top-right {
+  animation: path-particle-top-right 2s ease-in-out infinite;
+}
+
+.animate-path-particle-bottom-left {
+  animation: path-particle-bottom-left 2s ease-in-out infinite;
+}
+
+.animate-path-particle-bottom-right {
+  animation: path-particle-bottom-right 2s ease-in-out infinite;
 }
