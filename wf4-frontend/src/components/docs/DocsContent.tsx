@@ -301,24 +301,22 @@ const DocsContent = () => {
         {/* Models Section */}
         <section className="mb-16">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-foreground">
-              Meet The Team
-            </h2>
+            <h2 className="text-lg font-semibold text-foreground"></h2>
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             <ModelCard
-              name="Katherine"
-              description="Fullstack Developer"
+              name="Katherine Chang Wu"
+              description="CS > 2025"
               gradient="from-emerald-50 to-teal-100"
             />
             <ModelCard
-              name="Ashley"
-              description="Frontend Developer"
+              name="Ashley Liu"
+              description="CS + Math > 2025"
               gradient="from-blue-50 to-indigo-100"
             />
             <ModelCard
-              name="Ryan"
-              description="Backend and Infrastructure Developer"
+              name="Ryan Ho"
+              description="CS > 2025"
               gradient="from-amber-50 to-orange-100"
             />
           </div>
