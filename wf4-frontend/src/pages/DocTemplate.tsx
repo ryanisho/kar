@@ -45,19 +45,36 @@ const DocTemplate = () => {
       });
   }, [slug]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!doc) return;
 
     const confirmed = window.confirm(
       `Are you sure you want to delete "${doc.title}"? This action cannot be undone.`
     );
+    if (!confirmed) return;
 
-    if (confirmed) {
-      // TODO: Add API call to delete document when backend is ready
-      console.log("Deleting document:", doc.slug);
+    try {
+      console.log(`[DocTemplate] Sending DELETE for slug="${doc.slug}"`);
 
-      // For now, just navigate back to home
+      const resp = await fetch(`http://localhost:3001/api/docs/${doc.slug}`, {
+        method: "DELETE",
+      });
+
+      console.log("[DocTemplate] DELETE response:", resp.status, resp.statusText);
+
+      if (!resp.ok) {
+        const text = await resp.text();
+        console.error("[DocTemplate] DELETE error body:", text);
+        throw new Error(text || `Delete failed: ${resp.status}`);
+      }
+
+      const data = await resp.json(); // { success: true, deletedId: ... }
+      console.log("[DocTemplate] Deleted successfully:", data);
+
       navigate("/");
+    } catch (err) {
+      console.error("[DocTemplate] Failed to delete doc:", err);
+      alert("Failed to delete document. Check console for details.");
     }
   };
 

@@ -48,3 +48,19 @@ docsRouter.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create doc" });
   }
 });
+docsRouter.delete("/:slug", async (req, res) => {
+  const { slug } = req.params;
+  try {
+    const { rows } = await query<{ id: number }>(
+      "DELETE FROM docs WHERE slug = $1 RETURNING id",
+      [slug]
+    );
+    if (!rows.length) {
+      return res.status(404).json({ error: "Doc not found" });
+    }
+    res.json({ success: true, deletedId: rows[0].id });
+  } catch (err) {
+    console.error("Error deleting doc:", err);
+    res.status(500).json({ error: "Failed to delete doc" });
+  }
+});
