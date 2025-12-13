@@ -44,3 +44,9 @@ logs/
 tmp/
 temp/
 .cache/
+
+# postgresql file
+src/db.ts/
+
+
+package-lock.json
