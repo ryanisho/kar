@@ -62,9 +62,9 @@ const NotFound = () => {
           {state.loading && (
             <Card className="p-8 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
               <div className="flex flex-col items-center gap-4 text-center">
-                <div className="relative">
+                <div className="relative flex items-center justify-center w-12 h-12">
                   <Loader2 className="w-12 h-12 animate-spin text-primary" />
-                  <Sparkles className="w-6 h-6 text-primary absolute -top-1 -right-1 animate-pulse" />
+                  <Sparkles className="w-6 h-6 text-primary absolute animate-pulse" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-1">
