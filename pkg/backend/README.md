@@ -233,6 +233,9 @@ If `/api/docs` returns `[]`:
 ## Development
 
 ### Test Insertion
+```bash
+psql wf4
+```
 
 ```bash
 INSERT INTO docs (slug, title, body)
