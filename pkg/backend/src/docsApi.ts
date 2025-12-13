@@ -30,3 +30,6 @@ docsRouter.get("/:slug", async (req, res) => {
 
   res.json(rows[0]);
 });
+
+// TODO: endpoint to write to db via text forms on frontend
+
