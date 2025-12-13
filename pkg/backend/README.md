@@ -232,13 +232,166 @@ If `/api/docs` returns `[]`:
 
 ## Development
 
-### TypeScript Compilation
+### Test Insertion
 
 ```bash
-# Compile TypeScript
-npm run build
+INSERT INTO docs (slug, title, body)
+VALUES (
+  'jetstream_dynamics',
+  '💨 Jetstream Dynamics',
+  $$
+# 💨 Jetstream Dynamics
 
-# Output will be in dist/
+Jet streams are **narrow bands of very strong winds** in the upper troposphere and lower stratosphere, typically found near the **tropopause** between 8–12 km (25,000–40,000 ft). They form along strong horizontal **temperature gradients** and play a major role in shaping **weather fronts, storm tracks, and large-scale weather patterns**.
+
+---
+
+## 🌍 Where Jet Streams Live
+
+Jet streams tend to form:
+
+- Near the **polar front**, where cold polar air meets warm mid-latitude air.
+- Close to the **tropopause**, where vertical temperature changes rapidly.
+- In regions of **strong baroclinicity** (strong horizontal temperature gradients).
+
+There are two primary jets in each hemisphere:
+
+- **Polar Jet** – Stronger and more variable; closely tied to mid-latitude cyclones and cold fronts.
+- **Subtropical Jet** – Generally higher and more zonal; linked with Hadley cell outflow.
+
+**Related:**  
+- [Atmospheric Layers](/docs/atmospheric_layers)  
+- [Weather Patterns](/docs/weather_patterns)
+
+---
+
+## ⚖️ Thermal Wind & Why Jets Exist
+
+Jet streams are a direct consequence of the **thermal wind relationship**:
+
+- Strong **horizontal temperature gradients** (cold vs. warm side) cause winds **aloft** to increase with height.
+- Above strong **surface fronts**, winds accelerate, forming a **jet core**.
+
+Key ideas:
+
+- **Stronger temperature gradient → stronger vertical wind shear → stronger jet.**
+- The jet typically sits **above** the strongest temperature gradient at the surface (e.g., along a cold or warm front).
+
+**Related:**  
+- [Weather Fronts](/docs/weather_fronts)  
+- [Storm Systems](/docs/storm_systems)
+
+---
+
+## 🌀 Jet Streaks & Ageostrophic Circulations
+
+Within a jet stream, local maxima in wind speed are called **jet streaks**. They produce distinct **entrance** and **exit** regions that help force **rising and sinking air**.
+
+Idealized **straight-line jet streak** (Northern Hemisphere):
+
+- **Left-exit region** → Upper-level **divergence**, rising motion, surface **low pressure deepening**.  
+- **Right-entrance region** → Also favors divergence and ascent (in many classic setups).  
+- **Right-exit & left-entrance** → Often associated with convergence and sinking motion.
+
+These circulations are driven by **ageostrophic components** of the wind (departures from perfect geostrophic balance) as the jet accelerates or decelerates.
+
+Practical effects:
+
+- Enhanced **cloud development** and **precipitation** beneath upper-level divergence.
+- Preferred regions for **cyclogenesis** and **severe weather outbreaks** when combined with moisture and instability.
+
+**Related:**  
+- [Storm Systems](/docs/storm_systems)  
+- [Weather Patterns](/docs/weather_patterns)
+
+---
+
+## 📉 Meanders, Rossby Waves & Blocking
+
+Jet streams rarely flow as perfect west-to-east ribbons. Instead, they form **large-scale meanders** known as **Rossby waves**.
+
+Characteristics:
+
+- **Ridges** – Poleward bulges of warm air, typically associated with fair weather and high pressure.
+- **Troughs** – Equatorward dips of cold air, often associated with clouds, precipitation, and low pressure.
+
+When these waves **amplify** and **slow down**, they can lead to:
+
+- **Blocking patterns** – Persistent high-pressure systems that stall weather systems.  
+- **Extended extremes** – Long-lasting heat waves, cold spells, or prolonged wet/dry periods.
+
+**Related:**  
+- [Weather Patterns](/docs/weather_patterns)  
+- [Storm Systems](/docs/storm_systems)
+
+---
+
+## 🌦️ Jet Streams & Surface Weather
+
+The position and strength of the jet stream strongly influence:
+
+- **Storm tracks** – Cyclones tend to follow along, or just poleward of, the main jet.
+- **Front evolution** – Jet streaks can intensify surface **cold fronts**, **warm fronts**, and **occlusions**.
+- **Precipitation distribution** – Lift from jet-induced divergence helps organize cloud bands and rain shields.
+
+Classic mid-latitude scenario:
+
+- A **deep trough** aloft with a **polar jet streak** on its downstream side:
+  - Enhances ascent ahead of the trough.
+  - Supports surface **low-pressure deepening**.
+  - Produces widespread clouds and precipitation along associated fronts.
+
+**Related:**  
+- [Weather Fronts](/docs/weather_fronts)  
+- [Cloud Formations](/docs/clouds)
+
+---
+
+## ✈️ Jet Streams & Aviation
+
+For aviation, jet streams matter because:
+
+- Eastbound flights may **ride the jet** to save fuel and time.
+- Westbound flights try to **avoid the core** to reduce headwinds.
+- Strong jets often coincide with **clear-air turbulence**, especially near:
+  - Jet streak entrance/exit regions.
+  - Sharp vertical or horizontal wind shear zones.
+
+Pilots watch **jet position forecasts** closely when planning routes and cruise altitudes.
+
+---
+
+## 🌡️ Seasonal & Climate Connections
+
+Jet streams are not fixed; they shift and change:
+
+- **Seasonal cycle**:
+  - Stronger and more equatorward in **winter** (larger temperature contrasts).
+  - Weaker and more poleward in **summer**.
+- **Interannual variability**:
+  - Patterns like **El Niño / La Niña** can shift jet latitude and strength, altering storm tracks.
+
+Changes in **Arctic amplification** and global temperature gradients may influence long-term jet stream behavior, with implications for future **extreme weather**.
+
+**Related:**  
+- [Weather Patterns](/docs/weather_patterns)
+
+---
+
+## 🔗 See Also
+
+- [Atmospheric Layers](/docs/atmospheric_layers)  
+- [Weather Fronts](/docs/weather_fronts)  
+- [Storm Systems](/docs/storm_systems)  
+- [Cloud Formations](/docs/clouds)
+$$
+)
+ON CONFLICT (slug) DO UPDATE
+SET
+  title = EXCLUDED.title,
+  body = EXCLUDED.body,
+  updated_at = NOW();
+
 ```
 
 ### Database Queries
