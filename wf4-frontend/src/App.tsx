@@ -7,6 +7,7 @@ import { LinkResolverProvider } from "./contexts/LinkResolverContext";
 import Index from "./pages/Index";
 import DocTemplate from "./pages/DocTemplate";
 import NotFound from "./pages/NotFound";
+import NewDocument from "./pages/NewDocument";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/docs/new" element={<NewDocument />} />
             <Route path="/docs/:slug" element={<DocTemplate />} />
             <Route path="/404" element={<NotFound />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
