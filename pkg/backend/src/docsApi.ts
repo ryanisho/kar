@@ -31,7 +31,8 @@ docsRouter.get("/:slug", async (req, res) => {
   res.json(rows[0]);
 });
 
-// TODO: endpoint to write to db via text forms on frontend
+// post new article
+
 docsRouter.post("/", async (req, res) => {
   const { slug, title, body } = req.body;
   if (!slug || !title || !body) {
@@ -48,6 +49,9 @@ docsRouter.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create doc" });
   }
 });
+
+// delete article 
+
 docsRouter.delete("/:slug", async (req, res) => {
   const { slug } = req.params;
   try {
