@@ -13,16 +13,46 @@ const NewDocument = () => {
     content: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TODO: Add API call to create document when backend is ready
-    console.log("Creating document:", formData);
+    const payload = {
+      title: formData.title,
+      slug: formData.slug,
+      body: formData.content,
+    };
 
-    // For now, just navigate back
-    navigate("/");
+    console.log("[NewDocument] Submitting payload to backend:", payload);
+
+    try {
+      console.log("[NewDocument] POST /api/docs — sending request");
+
+      const resp = await fetch("http://localhost:3001/api/docs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      console.log(
+        "[NewDocument] Response received:",
+        resp.status,
+        resp.statusText
+      );
+
+      if (!resp.ok) {
+        const text = await resp.text();
+        console.error("[NewDocument] Backend error body:", text);
+        throw new Error(text || `Request failed: ${resp.status}`);
+      }
+
+      const created = await resp.json();
+      console.log("[NewDocument] Document created successfully:", created);
+
+      navigate(`/docs/${created.slug}`);
+    } catch (err) {
+      console.error("[NewDocument] Failed to create document:", err);
+    }
   };
-
   const handleTitleChange = (title: string) => {
     setFormData({
       ...formData,
