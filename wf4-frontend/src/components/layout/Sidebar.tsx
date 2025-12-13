@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, ChevronRight } from "lucide-react";
+import { ChevronRight, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -58,6 +58,15 @@ const Sidebar = () => {
   return (
     <aside className="fixed left-0 top-14 bottom-0 w-64 bg-sidebar border-r border-sidebar-border overflow-y-auto">
       <div className="p-3">
+        {/* new doc button */}
+        <Link
+          to="/docs/new"
+          className="flex items-center justify-center gap-2 w-full mb-4 px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          <span className="font-medium">New Document</span>
+        </Link>
+
         {/* Navigation */}
         <nav className="space-y-6">
           {navigation.map((section, sectionIndex) => (
